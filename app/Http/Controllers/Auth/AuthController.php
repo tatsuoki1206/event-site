@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+use App\Http\Requests\LoginFormRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class AuthController extends Controller
+{
+
+    public function __construct(User $user){
+        $this->user = $user;
+    }
+
+    /**
+     * @return View
+     * ログイン画面を表示
+     */
+    public function showLogin() {
+        return view( 'login.login_form' );
+    }
+
+    /**
+    * @param App\Http\Requests\LoginFormRequest $request
+    */
+
+    public function login( LoginFormRequest $request ) {
+        $credentials = $request->only( 'email', 'password' );
+
+        // 1.アカウントロックされていたら弾く
+        $user = $this->user->getUserByEmail($credentials['email']);
+
+        if (!is_null($user)){
+            // アカウントロックされているのかを見る
+            if($this->user->isAccountLocked($user)){
+                return back()->withErrors( [
+                    'danger' => 'アカウントがロックされています',
+                ] );
+            }
+
+            if ( Auth::attempt( $credentials ) ) {
+                $request->session()->regenerate();
+
+                // 2.成功した場合エラーカウントを0にする
+                $this->user->resetErrorCount($user);
+
+                return redirect()->route( 'home' )->with( 'success', 'ログイン成功しました！' );
+            }
+            // 3.ログイン失敗したらエラーカウントを1増やす
+            $user->error_count = $this->user->addErrorCount($user->error_count);
+
+            // 4.エラーカウントが6以上の場合はアカウントをロックする
+            if($this->user->lockAccount($user)){
+                return back()->withErrors( [
+                    'danger' => 'アカウントがロックされました。解除したい場合は運営者に連絡してください。',
+                ] );
+            }
+            $user->save();
+        }
+
+        return back()->withErrors( [
+            'danger' => 'メールアドレスかパスワードが間違っています。',
+        ] );
+    }
+}
