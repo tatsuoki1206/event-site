@@ -21,7 +21,9 @@
       <li>{{ $error }}</li>
     </ul>
   @endforeach
-        
+
+  <x-alert type="danger" :session="session('danger')" />
+  
   <label for="inputEmail" class="sr-only">Email address</label>
   <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
   <label for="inputPassword" class="sr-only">Password</label>
