@@ -65,4 +65,21 @@ class AuthController extends Controller
             'danger' => 'メールアドレスかパスワードが間違っています。',
         ] );
     }
+
+    /**
+    * ユーザーをアプリケーションからログアウトさせる
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @return \Illuminate\Http\Response
+    */
+
+    public function logout( Request $request ) {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        // ボタン連打による2重送信を防ぐ
+        $request->session()->regenerateToken();
+        // 名前付きルートのURLを生成
+        return redirect()->route('login.show')->with( 'danger', 'ログアウトしました！' );
+    }
 }

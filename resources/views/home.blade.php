@@ -9,6 +9,8 @@
 <body>
     <div class="container">
         <div class="mt-5">
+            @csrf
+            <x-alert type="success" :session="session('success')" />
             <h3>プロフィール</h3>
             <ul>
                 <li>名前：{{ Auth::user()->name }}</li>
@@ -18,6 +20,11 @@
             <a class="btn btn-lg btn-primary btn-block" href="/edit">会員情報の修正</a>
             <a class="btn btn-lg btn-primary btn-block" href="/delete">会員を退会する</a>
             <a class="btn btn-lg btn-primary btn-block" href="/image">画像一覧</a>
+
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button class="btn btn-danger">ログアウト</button>
+            </form>
             
         </div>
     </div>
