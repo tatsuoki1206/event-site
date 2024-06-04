@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         // Laravel11 非認証ユーザーはログイン画面へリダイレクト
         $middleware->redirectGuestsTo('/');
-        //$middleware->redirectGuestsTo(fn (Request $request) => route('login.show'));
+        
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
