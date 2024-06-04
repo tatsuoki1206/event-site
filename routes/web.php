@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Image\ImageController;
 
 /**
  * ログイン処理を行う
@@ -28,39 +29,64 @@ Route::group(['middleware' => ['auth']], function () {
 
 /**
  *  ユーザ情報を新規登録  
- * */   
-// 新規登録フォームの表示
-Route::get('signup', [UserController::class, 'showSignup'])->name('signup.show');
-    
-// 新規登録処理
-Route::post('signup', [UserController::class, 'signup'])->name('signup');
-    
-// 登録完了画面
-Route::get('signup/signup_complete', function() {
-    return view('signup/signup_complete');
-})->name('signup_complete.show');
+ * */
+
+ Route::group(['middleware' => ['guest']], function () {
+  // 新規登録フォームの表示
+  Route::get('signup', [UserController::class, 'showSignup'])->name('signup.show');
+
+  // 新規登録処理
+  Route::post('signup', [UserController::class, 'signup'])->name('signup');
+
+  // 登録完了画面
+  Route::get('signup/signup_complete', function() {
+      return view('signup/signup_complete');
+  })->name('signup_complete.show');
+});
 
 
 /**
  *  ユーザ情報を編集 
- * */   
-// 編集フォームの表示
-Route::get('edit', [UserController::class, 'showEdit'])->name('edit.show');
-    
-// 編集処理
-Route::post('edit', [UserController::class, 'edit'])->name('edit');
+ * */
 
+Route::group(['middleware' => ['auth']], function () {
+  // 編集フォームの表示
+  Route::get('edit', [UserController::class, 'showEdit'])->name('edit.show');
+
+  // 編集処理
+  Route::post('edit', [UserController::class, 'edit'])->name('edit');
+});
 
 /**
  *  ユーザを退会
  */
-// 退会確認画面の表示
-Route::get('delete', [UserController::class, 'showDeleteConfirm'])->name('delete_confirm.show');
-    
-// 退会処理
-Route::post('delete', [UserController::class, 'delete'])->name('delete');
 
-// 退会完了画面
-Route::get('delete/delete_complete', function() {
+Route::group(['middleware' => ['auth']], function () {
+  // 退会確認画面の表示
+  Route::get('delete', [UserController::class, 'showDeleteConfirm'])->name('delete_confirm.show');
+    
+  // 退会処理
+  Route::post('delete', [UserController::class, 'delete'])->name('delete');
+
+  // 退会完了画面
+  Route::get('delete/delete_complete', function() {
     return view('delete/delete_complete');
-})->name('delete_complete.show');
+  })->name('delete_complete.show');
+});
+
+/**
+ *  画像の投稿・削除・編集
+ */
+// 画像一覧画面の表示
+Route::group(['middleware' => ['auth']], function () {
+  Route::get('image', [ImageController::class, 'showImageList'])->name('image_list.show');
+
+  // 画像アップロード画面の表示
+  Route::get('image/upload', [ImageController::class, 'showImageForm'])->name('image_form.show');
+
+  // 画像アップロード処理
+  Route::post('image', [ImageController::class, 'imagePost'])->name('image');
+
+  // 画像削除処理
+  Route::post('image/delete', [ImageController::class, 'deleteImage'])->name('deleteImage');
+});
