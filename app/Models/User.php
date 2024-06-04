@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -95,7 +98,7 @@ class User extends Authenticatable
      * @param bool
      */
     public function lockAccount($user){
-        
+
         if($user->error_count  > 5){
             // エラーカウント6回でロックフラグを立てる
             $user->locked_flg = 1;
@@ -103,4 +106,78 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    /**
+     * ユーザー情報を登録する
+     * @param object $user
+     * @param bool
+     */
+    public function signupUser($inputs){
+        
+        // パスワードのハッシュ化
+        $inputs['password'] = Hash::make($inputs['password']);
+
+        \DB::beginTransaction();
+        try {
+            // ユーザを登録
+            User::create($inputs);
+            \DB::commit();
+            return true;
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            abort(500);
+            return false;
+        }
+    }
+
+    /**
+     * ユーザー情報を更新する
+     * @param object $user
+     * @param bool
+     */
+    public function editUser($inputs){
+        
+        \DB::beginTransaction();
+        try {
+            // ユーザ情報を更新
+            $user = User::find($inputs['id']);
+
+            $user->fill([
+                'name' => $inputs['name'],
+                'email' => $inputs['email'],
+                'password' => Hash::make($inputs['password']),
+            ]);
+            $user->save();
+            \DB::commit();
+            return true;
+
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            abort(500);
+            return false;
+        }
+
+    }
+
+    /**
+     * ユーザー情報を削除する
+     * @param object $user
+     * @param bool
+     */
+    public function deleteUser($id){
+        
+        if(empty($id)){
+            \Session::flash('err_msg','データがありません。');
+            return redirect(route('login'));
+        }
+
+        try{
+            // ユーザーを退会
+            User::destroy($id);
+        } catch(\Throwable $e){
+            // エラーで500ページに遷移
+            abort(500);
+        }
+    }
+
 }
