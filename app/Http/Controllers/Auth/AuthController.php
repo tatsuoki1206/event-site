@@ -30,11 +30,11 @@ class AuthController extends Controller
     public function login( LoginFormRequest $request ) {
         $credentials = $request->only( 'email', 'password' );
 
-        // 1.アカウントロックされていたら弾く
+        // 1.emailが存在するかを確認
         $user = $this->user->getUserByEmail($credentials['email']);
 
         if (!is_null($user)){
-            // アカウントロックされているのかを見る
+            // アカウントロックされているかを確認
             if($this->user->isAccountLocked($user)){
                 return back()->withErrors( [
                     'danger' => 'アカウントがロックされています',
@@ -44,7 +44,7 @@ class AuthController extends Controller
             if ( Auth::attempt( $credentials ) ) {
                 $request->session()->regenerate();
 
-                // 2.成功した場合エラーカウントを0にする
+                // 2.成功した場合エラーカウントを0に戻す
                 $this->user->resetErrorCount($user);
 
                 return redirect()->route( 'home' )->with( 'success', 'ログイン成功しました！' );
@@ -52,7 +52,7 @@ class AuthController extends Controller
             // 3.ログイン失敗したらエラーカウントを1増やす
             $user->error_count = $this->user->addErrorCount($user->error_count);
 
-            // 4.エラーカウントが6以上の場合はアカウントをロックする
+            // 4.エラーカウントが6でアカウントをロックする
             if($this->user->lockAccount($user)){
                 return back()->withErrors( [
                     'danger' => 'アカウントがロックされました。解除したい場合は運営者に連絡してください。',

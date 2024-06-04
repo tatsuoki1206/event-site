@@ -95,6 +95,7 @@ class User extends Authenticatable
      * @param bool
      */
     public function lockAccount($user){
+        
         if($user->error_count  > 5){
             // エラーカウント6回でロックフラグを立てる
             $user->locked_flg = 1;
