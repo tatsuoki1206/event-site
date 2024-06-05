@@ -15,7 +15,7 @@
 <div class="container">
   <div class="mt-5">
   <x-alert type="success" :session="session('success')" />
-    <a class="btn btn-lg btn-primary btn-block" href="image/upload">画像アップロードへ</a>
+    <a class="btn btn-lg btn-primary btn-block" href="{{ route('image_form.show') }}">画像アップロードへ</a>
     <a class="btn btn-lg btn-primary btn-block" href="/">戻る</a>
 
     <div class="row">
