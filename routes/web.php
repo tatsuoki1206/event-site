@@ -34,14 +34,18 @@ Route::group(['middleware' => ['auth']], function () {
  Route::group(['middleware' => ['guest']], function () {
   // 新規登録フォームの表示
   Route::get('signup', [UserController::class, 'showSignup'])->name('signup.show');
+  
+  // 確認画面に遷移
+  Route::post('signup/confirm', [UserController::class, 'signupConfirm'])->name('signupConfirm');
 
-  // 新規登録処理
-  Route::post('signup', [UserController::class, 'signup'])->name('signup');
+  // 新規登録処理、完了画面または入力画面へ遷移
+  Route::post('signup/complete', [UserController::class, 'signup'])->name('signupRegister');
 
-  // 登録完了画面
-  Route::get('signup/signup_complete', function() {
+  // 登録完了画面を表示
+  Route::get('signup/complete', function() {
       return view('signup/signup_complete');
   })->name('signup_complete.show');
+  
 });
 
 

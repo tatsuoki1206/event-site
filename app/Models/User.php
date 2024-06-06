@@ -32,6 +32,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'name',
+        'email',
         'password',
     ];
 
@@ -116,7 +118,7 @@ class User extends Authenticatable
         
         // パスワードのハッシュ化
         $inputs['password'] = Hash::make($inputs['password']);
-
+        
         \DB::beginTransaction();
         try {
             // ユーザを登録
