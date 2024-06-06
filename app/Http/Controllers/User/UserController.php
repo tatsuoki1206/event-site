@@ -16,34 +16,38 @@ class UserController extends Controller
     }
 
     /**
-     * 会員登録画面を表示
+     * 新規登録画面を表示
      */ 
     public function showSignup() {
         return view( 'signup.signup_form' );
     }
 
     /**
-     * 編集画面を表示
-     */
-    public function showEdit() {
-        return view( 'edit.edit_form' );
+     * 新規登録確認画面に遷移、表示
+     */ 
+    public function signupConfirm(SignupFormRequest $request) {
+        // 入力したメールアドレスが既に存在をしているかをチェック
+
+        // POSTされた値を取得し、確認画面を表示
+        return view('signup.signup_confirm', [
+            'inputs' => $request->all(),
+        ]);
     }
 
     /**
-     * 退会確認画面を表示
-     */
-    public function showDeleteConfirm() {
-        return view( 'delete.delete_confirm' );
-    }
-
-
-    /**
-     * ユーザーを新規登録する
+     * ユーザーを新規登録処理をする
      * @param App\Http\Requests\SignupFormRequest $request
      * @return \Illuminate\Http\Response
     */
-    public function signup(SignupFormRequest $request){
+    public function signup(Request $request){
 
+        $inputs = $request->all();
+        
+        // ボタン分岐
+        if(!empty($inputs['back'])){
+            return redirect()->route('signup.show')->withInput($inputs);;
+        }
+        
         // 入力内容を取得
         $inputs = $request->all();
         
@@ -52,6 +56,13 @@ class UserController extends Controller
         
         // 登録完了
         return redirect()->route('signup_complete.show')->with( 'success', 'ユーザーの登録が完了しました！' );
+    }
+
+    /**
+     * 編集画面を表示
+     */
+    public function showEdit() {
+        return view( 'edit.edit_form' );
     }
 
     /**
@@ -70,6 +81,13 @@ class UserController extends Controller
                 
         // 更新完了
         return redirect()->route( 'home' )->with( 'success', 'ユーザー情報を更新しました！' );
+    }
+
+    /**
+     * 退会確認画面を表示
+     */
+    public function showDeleteConfirm() {
+        return view( 'delete.delete_confirm' );
     }
 
     /**
