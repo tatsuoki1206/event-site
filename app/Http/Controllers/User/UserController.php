@@ -24,6 +24,8 @@ class UserController extends Controller
 
     /**
      * 新規登録確認画面に遷移、表示
+     * @param App\Http\Requests\SignupFormRequest $request
+     * @return \Illuminate\Http\Response
      */ 
     public function signupConfirm(SignupFormRequest $request) {
         // 入力したメールアドレスが既に存在をしているかをチェック
@@ -36,7 +38,7 @@ class UserController extends Controller
 
     /**
      * ユーザーを新規登録処理をする
-     * @param App\Http\Requests\SignupFormRequest $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
     */
     public function signup(Request $request){
@@ -45,7 +47,7 @@ class UserController extends Controller
         
         // ボタン分岐
         if(!empty($inputs['back'])){
-            return redirect()->route('signup.show')->withInput($inputs);;
+            return redirect()->route('signup.show')->withInput($inputs);
         }
         
         // 入力内容を取得
@@ -59,22 +61,47 @@ class UserController extends Controller
     }
 
     /**
-     * 編集画面を表示
+     * 編集フォーム画面を表示
      */
-    public function showEdit() {
-        return view( 'edit.edit_form' );
+    public function showEdit($id) {
+        
+        $inputs = User::find($id);
+        
+        return view( 'edit.edit_form', ['inputs' => $inputs] );
+    }
+
+    /**
+     * 編集確認画面に遷移、表示
+     * @param App\Http\Requests\EditUserFormRequest $request
+     * @return \Illuminate\Http\Response
+     */ 
+    public function editConfirm(EditUserFormRequest $request) {
+        // 入力したメールアドレスが既に存在をしているかをチェック
+
+        // POSTされた値を取得し、確認画面を表示
+        return view('edit.edit_confirm', [
+            'inputs' => $request->all(),
+        ]);
     }
 
     /**
      * ユーザ情報を編集する
-     * @param App\Http\Requests\EditUserFormRequest $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
 
-     public function edit(EditUserFormRequest $request){
+     public function edit(Request $request){
 
-        // 入力内容を取得
         $inputs = $request->all();
+        //$id = $inputs['id'];
+        
+        // ボタン分岐
+        if(!empty($inputs['back'])){
+            //return view( 'edit.edit_form', ['inputs' => $inputs] );
+            
+            //return redirect()->route('edit.show', ['inputs' => $inputs], ['id' => $inputs['id']]);
+            return redirect()->route('edit.show', ['id' => $inputs['id']])->withInput($inputs);
+        }
         
         // DBを更新
         $return = $this->user->editUser($inputs);

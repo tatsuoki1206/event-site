@@ -55,10 +55,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
   // 編集フォームの表示
-  Route::get('edit', [UserController::class, 'showEdit'])->name('edit.show');
+  Route::get('edit/{id}', [UserController::class, 'showEdit'])->name('edit.show');
+
+  // 編集確認画面に遷移
+  Route::post('edit/confirm', [UserController::class, 'editConfirm'])->name('editConfirm');
 
   // 編集処理
-  Route::post('edit', [UserController::class, 'edit'])->name('edit');
+  Route::post('edit/complete', [UserController::class, 'edit'])->name('editRegister');
 });
 
 /**

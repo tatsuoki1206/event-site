@@ -17,7 +17,7 @@
                 <li>メールアドレス：{{ Auth::user()->email }}</li>
             </ul>
 
-            <a class="btn btn-lg btn-primary btn-block" href="{{ route('edit') }}">会員情報の修正</a>
+            <a class="btn btn-lg btn-primary btn-block" href="edit/{{ Auth::user()->id }}">会員情報の修正</a>
             <a class="btn btn-lg btn-primary btn-block" href="{{ route('delete') }}">会員を退会する</a>
             <a class="btn btn-lg btn-primary btn-block" href="{{ route('image') }}">画像一覧</a>
 

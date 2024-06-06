@@ -28,7 +28,7 @@ class AuthController extends Controller
     */
 
     public function login( LoginFormRequest $request ) {
-        $credentials = $request->only( 'email', 'password' );
+        $credentials = $request->only('id', 'email', 'password');
 
         // 1.emailが存在するかを確認
         $user = $this->user->getUserByEmail($credentials['email']);
