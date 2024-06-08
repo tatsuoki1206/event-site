@@ -29,11 +29,23 @@ class UserController extends Controller
      */ 
     public function signupConfirm(SignupFormRequest $request) {
         // 入力したメールアドレスが既に存在をしているかをチェック
+        $inputs = $request->all();
 
-        // POSTされた値を取得し、確認画面を表示
-        return view('signup.signup_confirm', [
-            'inputs' => $request->all(),
-        ]);
+        $user = $this->user->getUserByEmail($inputs['email']);
+
+        // 確認画面にパスワードを●で表示
+        $inputs['str_password'] = $this->user->strPassword($inputs['password']);
+
+        if (is_null($user)){
+            // POSTされた値を取得し、確認画面を表示
+            return view('signup.signup_confirm', [
+                'inputs' => $inputs,
+            ]);
+        }
+
+        return back()->withErrors( [
+            'danger' => '入力されたメールアドレスは既に登録済みです。',
+        ] )->withInput($inputs);
     }
 
     /**
@@ -76,12 +88,28 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */ 
     public function editConfirm(EditUserFormRequest $request) {
-        // 入力したメールアドレスが既に存在をしているかをチェック
 
-        // POSTされた値を取得し、確認画面を表示
-        return view('edit.edit_confirm', [
-            'inputs' => $request->all(),
-        ]);
+        // 入力したメールアドレスが既に存在をしているかをチェック
+        $inputs = $request->all();
+
+        $user = $this->user->getUserByEmail($inputs['email']);
+
+        // 確認画面にパスワードを●で表示
+        $inputs['str_password'] = $this->user->strPassword($inputs['password']);
+
+        // 入力したメールアドレスが現在のメールアドレスと同じ時も、確認画面へ遷移
+        $my_user = User::find($inputs['id']);
+        
+        if (is_null($user) || $inputs['email'] === $my_user['email']){
+            // POSTされた値を取得し、確認画面を表示
+            return view('edit.edit_confirm', [
+                'inputs' => $inputs,
+            ]);
+        }
+
+        return back()->withErrors( [
+            'danger' => '入力されたメールアドレスは既に登録済みです。',
+        ] )->withInput($inputs);
     }
 
     /**
@@ -93,13 +121,9 @@ class UserController extends Controller
      public function edit(Request $request){
 
         $inputs = $request->all();
-        //$id = $inputs['id'];
         
         // ボタン分岐
         if(!empty($inputs['back'])){
-            //return view( 'edit.edit_form', ['inputs' => $inputs] );
-            
-            //return redirect()->route('edit.show', ['inputs' => $inputs], ['id' => $inputs['id']]);
             return redirect()->route('edit.show', ['id' => $inputs['id']])->withInput($inputs);
         }
         

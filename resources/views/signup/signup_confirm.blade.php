@@ -22,7 +22,9 @@
   <label for="email">メールアドレス：</label>
   <input type="hidden" name="email" value="{{ $inputs['email'] }}">
   <p>{{ $inputs['email'] }}</p>
+  <label for="email">パスワード：</label>
   <input type="hidden" name="password" value="{{ $inputs['password'] }}">
+  <p>{{ $inputs['str_password'] }}</p>
   <button class="btn btn-lg btn-primary btn-block" name="back" value="back" type="submit">修正する</a>
   <button class="btn btn-lg btn-primary btn-block" type="submit">登録する</button>
 </form>

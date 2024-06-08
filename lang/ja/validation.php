@@ -103,7 +103,7 @@ return [
     'required_with_all'    => ':valuesを指定する場合は、:attributeも指定してください。',
     'required_without'     => ':valuesを指定しない場合は、:attributeを指定してください。',
     'required_without_all' => ':valuesのどれも指定しない場合は、:attributeを指定してください。',
-    'same'                 => ':attributeと:otherには同じ値を指定してください。',
+    'same'                 => ':otherと:attributeには同じ値を指定してください。',
     'size'                 => [
         'numeric' => ':attributeは:sizeを指定してください。',
         'file'    => ':attributeのファイルは、:sizeキロバイトでなくてはなりません。',
@@ -149,6 +149,7 @@ return [
     'attributes' => [
         'email' => 'メールアドレス',
         'password' => 'パスワード',
+        'password_confirm' => 'パスワード（確認用）',
     ],
 
 ];
