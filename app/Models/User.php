@@ -182,4 +182,19 @@ class User extends Authenticatable
         }
     }
 
+    /**
+     * パスワードを●に変換して確認画面に表示する
+     * @param object $password 
+     */
+    public function strPassword($password){
+
+        $str_password = "";
+        $count_password = strlen($password);
+
+        for($i = 0 ; $i < $count_password; $i++){
+            $str_password = "●".$str_password;
+        }
+        
+        return $str_password;
+    }
 }
