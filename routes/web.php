@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\ResetController;
 use App\Http\Controllers\Image\ImageController;
 
 /**
@@ -48,6 +49,26 @@ Route::group(['middleware' => ['auth']], function () {
   
 });
 
+/**
+ * パスワードリセット処理を行う
+ */
+Route::group(['middleware' => ['guest']], function () {
+  
+  // リセット画面を表示
+  Route::get('reset', [ResetController::class, 'showPasswordReset'])->name('reset.show');
+  
+  // リセットメール送信
+  Route::post('reset', [ResetController::class, 'passwordReset'])->name('reset');
+
+  // リセットメール送信完了画面表示
+  Route::get('reset/complete', function() {
+    return view('reset/reset_complete');
+  })->name('reset_complete.show');
+
+  // パスワード再設定画面
+
+  // パスワード再設定完了
+});
 
 /**
  *  ユーザ情報を編集 
