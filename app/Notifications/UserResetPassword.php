@@ -16,18 +16,17 @@ class UserResetPassword extends Notification
     * 
     * @var string
     */
-    //public $token;
+    public $token;
 
     /**
      * Create a new notification instance.
      */
     
-    public function __construct()
+    public function __construct($token)
     {
-    //    $this->token = $token;
+        $this->token = $token;
     }
     
-
     /**
      * Get the notification's delivery channels.
      *
@@ -43,11 +42,17 @@ class UserResetPassword extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // トークンとメールアドレスを取得
+        $reset_user = ['email' => $notifiable->getEmailForPasswordReset()];
+        $this->email = $reset_user['email'];
+
+        $url = url('/reset_password/'.$this->token.'/'.$this->email);
+        
         return (new MailMessage)
             ->from('noreplay@gmail.com', config('app.name'))
             ->subject('パスワード再設定のお知らせ')
             ->line('下記より再設定ください。有効期限は10分となります。')
-            ->action('パスワード再設定画面はこちら', url('/reset_password'))
+            ->action('パスワード再設定画面はこちら', $url)
             ->line('本システムをご利用いただき誠にありがとうございます。');
     }
 
