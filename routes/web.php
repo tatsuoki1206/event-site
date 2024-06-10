@@ -27,7 +27,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-
 /**
  *  ユーザ情報を新規登録  
  * */
@@ -58,16 +57,24 @@ Route::group(['middleware' => ['guest']], function () {
   Route::get('reset', [ResetController::class, 'showPasswordReset'])->name('reset.show');
   
   // リセットメール送信
-  Route::post('reset', [ResetController::class, 'passwordReset'])->name('reset');
+  Route::post('reset', [ResetController::class, 'resetMail'])->name('resetMail');
 
   // リセットメール送信完了画面表示
   Route::get('reset/complete', function() {
     return view('reset/reset_complete');
   })->name('reset_complete.show');
 
-  // パスワード再設定画面
+  // パスワード再設定画面を表示
+  Route::get('reset_password/{token}/{email}', [ResetController::class, 'showResetPasswordForm'])->name('reset_password.show');
 
-  // パスワード再設定完了
+  // パスワード再設定を実施
+  Route::post('reset_password', [ResetController::class, 'resetPassword'])->name('resetPassword');
+
+  // パスワード再設定完了画面表示
+  Route::get('reset_password/complete', function() {
+    return view('reset_password/reset_password_complete');
+  })->name('reset_password_complete.show');
+
 });
 
 /**

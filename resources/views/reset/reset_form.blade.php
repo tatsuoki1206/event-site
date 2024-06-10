@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form class="form-signin" method="POST" action="{{ route('reset') }}">
+<form class="form-signin" method="POST" action="{{ route('resetMail') }}">
   @csrf
   <h1 class="h3 mb-3 font-weight-normal">パスワードリセット</h1>
 

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Requests\ResetFormRequest;
+use App\Http\Requests\ResetMailRequest;
+use App\Http\Requests\ResetPassRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -23,9 +24,9 @@ class ResetController extends Controller
     }
 
     /**
-     * パスワードリセット処理
+     * パスワードリセットメールの送信を要求
      */ 
-    public function passwordReset(ResetFormRequest $request) {
+    public function resetMail(ResetMailRequest $request) {
 
         // 入力したメールアドレスが既に存在をしているかをチェック
         $inputs = $request->all();
@@ -46,13 +47,41 @@ class ResetController extends Controller
             } else {
                 return back()->withErrors(['email' => __($status)]);
                 
-            }
-            
-            /*
-            return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
-            */
+            }            
         }
+    }
+
+    /**
+     * パスワード再設定画面を表示
+     */ 
+    public function showResetPasswordForm($token, $email) {
+        
+        return view('reset_password/reset_password_form', ['token' => $token, 'email' => $email]);
+    }
+
+    /**
+     * パスワード再設定
+     */ 
+    public function resetPassword(ResetPassRequest $request) {
+        
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect()->route(('login'))->with('message.success', 'パスワードを再設定しました。新しいパスワードでログインしてください。');
+        } else {
+            return back()->with('message.error', __($status));
+        }
+
     }
 }
