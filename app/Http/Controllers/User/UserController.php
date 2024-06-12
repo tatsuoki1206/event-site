@@ -152,9 +152,10 @@ class UserController extends Controller
 
         // DBから削除
         $return = $this->user->deleteUser($data['id']);
-
-        \Session::flash('err_msg','退会完了しました。');
-        return redirect(route('delete_complete.show'));
+        
+        Session::flash('success','退会完了しました。');
+        return redirect()->route( 'delete_complete.show' )->with( 'success', '退会完了しました。' );
+        
     }
 
 }
