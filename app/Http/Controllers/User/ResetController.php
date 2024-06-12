@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\Password_reset_token;
 
 class ResetController extends Controller
 {
-    public function __construct(User $user){
+    public function __construct(User $user, Password_reset_token $reset_user){
         $this->user = $user;
+        $this->password_reset_token = $reset_user;
     }
 
     /**
@@ -27,6 +29,8 @@ class ResetController extends Controller
 
     /**
      * パスワードリセットメールの送信を要求
+     * @param ResetMailRequest $request
+     * @return \Illuminate\Http\Response
      */ 
     public function resetMail(ResetMailRequest $request) {
 
@@ -55,19 +59,27 @@ class ResetController extends Controller
 
     /**
      * パスワード再設定画面を表示
+     * @param string $token, $email
+     * @return \Illuminate\Http\Response
      */ 
     public function showResetPasswordForm($token, $email) {
-        // emailがPassword_reset_tokenに存在するかつ（まだ1度も再設定してない）
-        // created_atが今の時間よりも10分前以内である
+        
+        // emailがPassword_reset_tokenに存在する（まだ1度も再設定してない）
+        $reset_user = $this->password_reset_token->getResetUserByEmail($email);
 
-        // 条件を満たしていればパスワード再設定画面を表示
-        return view('reset_password/reset_password_form', ['token' => $token, 'email' => $email]);
+        if(!is_null($reset_user)){
+                // 条件を満たしていればパスワード再設定画面を表示
+                return view('reset_password/reset_password_form', ['token' => $token, 'email' => $email]);
+        }
+        
         // それ以外の場合は別の画面にリダイレクト
-
+        return redirect()->route(('login.show'))->with('danger', '既にパスワード再設定済です。再度パスワード再設定が必要な場合は、パスワードリセットをご依頼ください。');
     }
 
     /**
      * パスワード再設定を実施
+     * @param ResetPassRequest $request
+     * @return \Illuminate\Http\Response
      */ 
     public function resetPassword(ResetPassRequest $request) {
         
@@ -87,6 +99,7 @@ class ResetController extends Controller
         if ($status === Password::PASSWORD_RESET) {
             return redirect()->route(('reset_password_complete.show'))->with('success', 'パスワードを再設定しました。新しいパスワードでログインしてください。');
         } else {
+            $status = "本ページのURL発行から60分経過した為、パスワードを設定できません。再度パスワード再設定が必要な場合は、パスワードリセットをご依頼ください。";
             return back()->with('danger', __($status));
         }
 
