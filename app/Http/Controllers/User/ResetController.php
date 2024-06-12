@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Requests\ResetMailRequest;
 use App\Http\Requests\ResetPassRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use App\Models\User;
 
 class ResetController extends Controller
@@ -55,12 +57,17 @@ class ResetController extends Controller
      * パスワード再設定画面を表示
      */ 
     public function showResetPasswordForm($token, $email) {
-        
+        // emailがPassword_reset_tokenに存在するかつ（まだ1度も再設定してない）
+        // created_atが今の時間よりも10分前以内である
+
+        // 条件を満たしていればパスワード再設定画面を表示
         return view('reset_password/reset_password_form', ['token' => $token, 'email' => $email]);
+        // それ以外の場合は別の画面にリダイレクト
+
     }
 
     /**
-     * パスワード再設定
+     * パスワード再設定を実施
      */ 
     public function resetPassword(ResetPassRequest $request) {
         
@@ -78,9 +85,9 @@ class ResetController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route(('login'))->with('message.success', 'パスワードを再設定しました。新しいパスワードでログインしてください。');
+            return redirect()->route(('reset_password_complete.show'))->with('success', 'パスワードを再設定しました。新しいパスワードでログインしてください。');
         } else {
-            return back()->with('message.error', __($status));
+            return back()->with('danger', __($status));
         }
 
     }
