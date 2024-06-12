@@ -22,6 +22,7 @@
     </ul>
   @endforeach
 
+  <x-alert type="success" :session="session('success')" />
   <x-alert type="danger" :session="session('danger')" />
   
   <label for="inputEmail" class="sr-only">Email address</label>

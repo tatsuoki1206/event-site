@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form class="form-signin" method="POST" action="{{ route('delete') }}">
+<form class="form-signin" method="POST" action="{{ route('deleteComplete') }}">
     @csrf
   <h1 class="h3 mb-3 font-weight-normal">退会ユーザーの確認</h1>
   <p>以下ユーザーの退会を希望する場合は退会ボタンを押してください。</p>

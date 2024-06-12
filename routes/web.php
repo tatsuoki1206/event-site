@@ -101,8 +101,11 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('delete', [UserController::class, 'showDeleteConfirm'])->name('delete_confirm.show');
     
   // 退会処理
-  Route::post('delete', [UserController::class, 'delete'])->name('delete');
+  Route::post('delete/complete', [UserController::class, 'delete'])->name('deleteComplete');
 
+});
+
+Route::group(['middleware' => ['guest']], function () {
   // 退会完了画面
   Route::get('delete/delete_complete', function() {
     return view('delete/delete_complete');

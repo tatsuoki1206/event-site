@@ -171,13 +171,14 @@ class User extends Authenticatable
     public function deleteUser($id){
         
         if(empty($id)){
-            \Session::flash('err_msg','データがありません。');
+            \Session::flash('danger','データがありません。');
             return redirect(route('login'));
         }
 
         try{
             // ユーザーを退会
             User::destroy($id);
+            
         } catch(\Throwable $e){
             // エラーで500ページに遷移
             abort(500);
@@ -209,5 +210,16 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new UserResetPassword($token));
+    }
+
+    /**
+     * ユーザ登録完了通知の送信
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendSignupNotification($token)
+    {
+        $this->notify(new UserSignUp($token));
     }
 }
