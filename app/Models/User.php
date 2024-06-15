@@ -202,17 +202,6 @@ class User extends Authenticatable
     }
 
     /**
-     * パスワードリセット通知の送信
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new UserResetPassword($token));
-    }
-
-    /**
      * ユーザ登録完了通知の送信
      *
      * @param  string  $token
@@ -222,4 +211,17 @@ class User extends Authenticatable
     {
         $this->notify(new UserSignUp($token));
     }
+
+    /**
+     * パスワードリセット通知の送信
+     *
+     * @param  string  $token
+     * @return void
+     */
+    
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new UserResetPassword($token));
+    }
+
 }

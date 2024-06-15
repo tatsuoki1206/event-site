@@ -10,9 +10,13 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+
 class Password_reset_token extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+
+    // 有効期限設定対策
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +27,7 @@ class Password_reset_token extends Model
         'email',
         'token',
         'created_at',
+        'expire_at',
     ];
 
     /**
@@ -34,4 +39,5 @@ class Password_reset_token extends Model
         
         return Password_reset_token::where('email', '=', $email)->first();
     }
+    
 }
