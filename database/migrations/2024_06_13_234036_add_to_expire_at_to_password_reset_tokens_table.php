@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->rememberToken();
+        Schema::table('password_reset_tokens', function (Blueprint $table) {
+            $table->dateTime('expire_at')->nullable();
         });
     }
 
@@ -21,8 +21,5 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            table->dropRememberToken();
-        });
     }
 };

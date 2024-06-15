@@ -42,6 +42,7 @@ class UserResetPassword extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        
         // トークンとメールアドレスを取得
         $reset_user = ['email' => $notifiable->getEmailForPasswordReset()];
         $this->email = $reset_user['email'];
@@ -51,7 +52,7 @@ class UserResetPassword extends Notification
         return (new MailMessage)
             ->from('noreplay@gmail.com', config('app.name'))
             ->subject('パスワード再設定のお知らせ')
-            ->line('下記より再設定ください。有効期限は10分となります。')
+            ->line('下記ボタンまたはURLより再設定ください。1時間が経過すると無効になります。')
             ->action('パスワード再設定画面はこちら', $url)
             ->line('本システムをご利用いただき誠にありがとうございます。');
     }

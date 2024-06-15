@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Requests\ResetMailRequest;
 use App\Http\Requests\ResetPassRequest;
@@ -45,7 +46,6 @@ class ResetController extends Controller
                 $request->only('email')
             );
             
-            // リクエストメールを送信する
             if($status === Password::RESET_LINK_SENT){
                 back()->with(['status' => __($status)]);
                 return redirect()->route('reset_complete.show');
@@ -64,16 +64,18 @@ class ResetController extends Controller
      */ 
     public function showResetPasswordForm($token, $email) {
         
-        // emailがPassword_reset_tokenに存在する（まだ1度も再設定してない）
+        // emailからパスワードリセット情報があるか（まだ1度も再設定してないか）
         $reset_user = $this->password_reset_token->getResetUserByEmail($email);
+        // 現在の時間を取得し、有効期限が過ぎてないか
+        $now = Carbon::now();
 
-        if(!is_null($reset_user)){
+        if(!is_null($reset_user) && $now <= $reset_user['expire_at']){
                 // 条件を満たしていればパスワード再設定画面を表示
                 return view('reset_password/reset_password_form', ['token' => $token, 'email' => $email]);
         }
         
         // それ以外の場合は別の画面にリダイレクト
-        return redirect()->route(('login.show'))->with('danger', '既にパスワード再設定済です。再度パスワード再設定が必要な場合は、パスワードリセットをご依頼ください。');
+        return redirect()->route(('login.show'))->with('danger', '既にパスワード再設定済み、またはURLが有効期限切れです。再度パスワード再設定が必要な場合は、パスワードリセットをご依頼ください。');
     }
 
     /**
