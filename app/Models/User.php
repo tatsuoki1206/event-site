@@ -9,9 +9,10 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\UserResetPassword;
+use App\Notifications\UserSignUp;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -199,17 +200,6 @@ class User extends Authenticatable
         }
         
         return $str_password;
-    }
-
-    /**
-     * ユーザ登録完了通知の送信
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendSignupNotification($token)
-    {
-        $this->notify(new UserSignUp($token));
     }
 
     /**

@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
  *  ユーザ情報を新規登録  
  * */
 
- Route::group(['middleware' => ['guest']], function () {
+Route::group(['middleware' => ['guest']], function () {
   // 新規登録フォームの表示
   Route::get('signup', [UserController::class, 'showSignup'])->name('signup.show');
   

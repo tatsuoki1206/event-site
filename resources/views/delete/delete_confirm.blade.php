@@ -26,8 +26,10 @@
   <x-alert type="danger" :session="session('danger')" />
   <input type="hidden" name="id" value="{{ Auth::user()->id }}">
   <label for="inputEmail" class="sr-only">名前（姓・名）</label>
+  <input type="hidden" name="name" value="{{ Auth::user()->name }}">
   <p>{{ Auth::user()->name }}</p>
   <label for="inputEmail" class="sr-only">メールアドレス</label>
+  <input type="hidden" name="email" value="{{ Auth::user()->email }}">
   <p>{{ Auth::user()->email }}</p>
   <a class="btn btn-lg btn-primary btn-block" href="/">戻る</a>
   <button class="btn btn-lg btn-primary btn-block" type="submit">退会</button>
