@@ -7,15 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserSignUp extends Notification
+class UserSignup extends Notification
 {
     use Queueable;
 
-    /**
-    * The password reset token.
-    * 
-    * @var string
-    */
     public $name;
 
     /**
@@ -41,12 +36,15 @@ class UserSignUp extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        //return (new MailMessage)->markdown('mail.registered');
+
         return (new MailMessage)
-                    ->from('noreplay@gmail.com', config('app.name'))
-                    ->line($this->name.'様')
-                    ->line('ユーザー登録が完了しました。')
-                    ->action('ログイン画面へ', url('/'))
-                    ->line('本システムをご登録いただきありがとうございます。');
+        ->from('noreplay@gmail.com', config('app.name'))
+        ->subject('ユーザ登録完了のお知らせ')
+        ->line($this->name.'様')
+        ->line('ユーザー登録が完了しました。ログイン出来るかお試しください。')
+        ->action('ログイン画面へ', url('/'))
+        ->line('本システムをご登録いただきありがとうございます。');
     }
 
     /**

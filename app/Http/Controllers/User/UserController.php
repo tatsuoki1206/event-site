@@ -7,6 +7,9 @@ use App\Http\Requests\EditUserFormRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\UserSignup;
+use App\Mail\UserDelete;
+Use Mail;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -67,6 +70,13 @@ class UserController extends Controller
         
         // DBに登録
         $return = $this->user->signupUser($inputs);
+        
+        // 登録完了メールを送信
+        $to = [
+            ['email' => $inputs['email'], ]
+        ];
+    
+        Mail::to($to)->send(new UserSignup($inputs['name']));
         
         // 登録完了
         return redirect()->route('signup_complete.show')->with( 'success', 'ユーザーの登録が完了しました！' );
@@ -152,8 +162,14 @@ class UserController extends Controller
 
         // DBから削除
         $return = $this->user->deleteUser($data['id']);
+
+        // 退会完了メールを送信
+        $to = [
+            ['email' => $data['email'], ]
+        ];
+    
+        Mail::to($to)->send(new UserDelete($data['name']));
         
-        Session::flash('success','退会完了しました。');
         return redirect()->route( 'delete_complete.show' )->with( 'success', '退会完了しました。' );
         
     }
