@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ユーザ登録フォーム</title>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <!-- Scripts -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
-</head>
-<body>
+@section('title','イベント管理システム | ユーザー登録フォーム')
+@extends('layouts/guest')
+@section('content')
 
 <form class="form-signin" method="POST" action="{{ route('signupConfirm') }}">
     @csrf
@@ -35,5 +25,4 @@
   <button class="btn btn-lg btn-primary btn-block" type="submit">確認画面へ</button>
 </form>
 
-</body>
-</html>
+@endsection
