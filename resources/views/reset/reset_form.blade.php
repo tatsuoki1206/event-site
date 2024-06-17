@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パスワードリセット</title>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <!-- Scripts -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
-</head>
-<body>
+@section('title','イベント管理システム | パスワードリセット')
+@extends('layouts/guest')
+@section('content')
 
 <form class="form-signin" method="POST" action="{{ route('resetMail') }}">
   @csrf
@@ -30,5 +20,4 @@
   <button class="btn btn-lg btn-primary btn-block" type="submit">送信</button>
 </form>
 
-</body>
-</html>
+@endsection

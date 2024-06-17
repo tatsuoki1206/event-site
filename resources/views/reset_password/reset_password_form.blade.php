@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パスワード再設定フォーム</title>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <!-- Scripts -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
-</head>
-<body>
+@section('title','イベント管理システム | パスワード再設定')
+@extends('layouts/guest')
+@section('content')
 
 <form class="form-signin" method="POST" action="{{ route('resetPassword') }}">
     @csrf
-  <h1 class="h3 mb-3 font-weight-normal">パスワード再設定フォーム</h1>
+  <h1 class="h3 mb-3 font-weight-normal">パスワード再設定</h1>
 
   @foreach ($errors->all() as $error)
     <ul class="alert alert-danger">
@@ -35,5 +25,4 @@
   <button class="btn btn-lg btn-primary btn-block" type="submit">登録</button>
 </form>
 
-</body>
-</html>
+@endsection

@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>画像アップロードフォーム</title>
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <!-- Scripts -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
-</head>
-<body>
+@section('title','イベント管理システム | 画像アップロードフォーム')
+@extends('layouts/auth')
+@section('content')
 
 <div class="container">
   <div class="mt-5">
@@ -49,5 +39,5 @@ function checkDelete(){
     }
 }
 </script>
-</body>
-</html>
+
+@endsection
