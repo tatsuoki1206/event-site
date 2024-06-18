@@ -20,7 +20,7 @@ class AuthController extends Controller
      * ログイン画面を表示
      */
     public function showLogin() {
-        return view( 'login.login_form' );
+        return view( 'admin.login.login_form' );
     }
 
     /**

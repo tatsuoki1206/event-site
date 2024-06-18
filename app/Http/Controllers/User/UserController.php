@@ -22,7 +22,7 @@ class UserController extends Controller
      * 新規登録画面を表示
      */ 
     public function showSignup() {
-        return view( 'signup.signup_form' );
+        return view( 'admin.signup.signup_form' );
     }
 
     /**
@@ -41,7 +41,7 @@ class UserController extends Controller
 
         if (is_null($user)){
             // POSTされた値を取得し、確認画面を表示
-            return view('signup.signup_confirm', [
+            return view('admin.signup.signup_confirm', [
                 'inputs' => $inputs,
             ]);
         }
@@ -89,7 +89,7 @@ class UserController extends Controller
         
         $inputs = User::find($id);
         
-        return view( 'edit.edit_form', ['inputs' => $inputs] );
+        return view( 'admin.edit.edit_form', ['inputs' => $inputs] );
     }
 
     /**
@@ -112,7 +112,7 @@ class UserController extends Controller
         
         if (is_null($user) || $inputs['email'] === $my_user['email']){
             // POSTされた値を取得し、確認画面を表示
-            return view('edit.edit_confirm', [
+            return view('admin.edit.edit_confirm', [
                 'inputs' => $inputs,
             ]);
         }
@@ -148,7 +148,7 @@ class UserController extends Controller
      * 退会確認画面を表示
      */
     public function showDeleteConfirm() {
-        return view( 'delete.delete_confirm' );
+        return view( 'admin.delete.delete_confirm' );
     }
 
     /**
