@@ -25,7 +25,7 @@ class ResetController extends Controller
      * パスワードリセット画面を表示
      */ 
     public function showPasswordReset() {
-        return view( 'reset.reset_form' );
+        return view( 'admin.reset.reset_form' );
     }
 
     /**
@@ -71,7 +71,7 @@ class ResetController extends Controller
 
         if(!is_null($reset_user) && $now <= $reset_user['expire_at']){
                 // 条件を満たしていればパスワード再設定画面を表示
-                return view('reset_password/reset_password_form', ['token' => $token, 'email' => $email]);
+                return view('admin.reset_password.reset_password_form', ['token' => $token, 'email' => $email]);
         }
         
         // それ以外の場合は別の画面にリダイレクト

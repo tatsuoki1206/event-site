@@ -23,7 +23,7 @@ class ImageController extends Controller
     {
         $images = Image::all();
 
-        return view('image.image_list',['images' => $images]);
+        return view('admin.image.image_list',['images' => $images]);
     }
 
     /**
@@ -32,7 +32,7 @@ class ImageController extends Controller
      */
     public function showImageForm()
     {
-        return view( 'image.upload.image_form' );
+        return view( 'admin.image.upload.image_form' );
     }
 
     /**

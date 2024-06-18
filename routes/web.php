@@ -1,10 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// 管理サイト
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ResetController;
 use App\Http\Controllers\Image\ImageController;
+// ユーザーサイト
+use App\Http\Controllers\Ticket\ReserveController;
 
 /**
  * ログイン処理を行う
@@ -21,7 +24,7 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth']], function () {
     // ホーム画面
     Route::get('home', function() {
-      return view('home');
+      return view('admin.home');
     })->name('home');
     // ログアウト
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -43,7 +46,7 @@ Route::group(['middleware' => ['guest']], function () {
 
   // 登録完了画面を表示
   Route::get('signup/complete', function() {
-      return view('signup/signup_complete');
+      return view('admin.signup.signup_complete');
   })->name('signup_complete.show');
   
 });
@@ -61,7 +64,7 @@ Route::group(['middleware' => ['guest']], function () {
 
   // リセットメール送信完了画面表示
   Route::get('reset/complete', function() {
-    return view('reset/reset_complete');
+    return view('admin.reset.reset_complete');
   })->name('reset_complete.show');
 
   // パスワード再設定画面を表示
@@ -72,7 +75,7 @@ Route::group(['middleware' => ['guest']], function () {
 
   // パスワード再設定完了画面表示
   Route::get('reset_password/complete', function() {
-    return view('reset_password/reset_password_complete');
+    return view('admin.reset_password.reset_password_complete');
   })->name('reset_password_complete.show');
 
 });
@@ -108,7 +111,7 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['middleware' => ['guest']], function () {
   // 退会完了画面
   Route::get('delete/delete_complete', function() {
-    return view('delete/delete_complete');
+    return view('admin.delete.delete_complete');
   })->name('delete_complete.show');
 });
 
@@ -128,3 +131,8 @@ Route::group(['middleware' => ['auth']], function () {
   // 画像削除処理
   Route::post('image/delete', [ImageController::class, 'deleteImage'])->name('deleteImage');
 });
+
+/**
+ * チケット予約
+ */
+Route::get('ticket', [ReserveController::class, 'showReserveForm'])->name('reserve_form.show');
