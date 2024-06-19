@@ -6,18 +6,21 @@
     <title>@yield('title')</title>
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <!-- Scripts -->
+    <script src="{{ asset('js/checkout.js') }}" defer></script>
+    <!-- css -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/checkout.css') }}" rel="stylesheet">
 </head>
 <body>
     <header>
       @include('users.layouts.header')
     </header>
     <br>
-    <main class="d-flex flex-nowrap">
-        <div class="container">
+    <div class="container">
+      <main >
             @yield('content')
-        </div>
+      </main>
+    </div>
     </main>
     <footer class="footer bg-dark  fixed-bottom">
       @include('users.layouts.footer')
