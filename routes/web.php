@@ -135,4 +135,14 @@ Route::group(['middleware' => ['auth']], function () {
 /**
  * チケット予約
  */
-Route::get('ticket', [ReserveController::class, 'showReserveForm'])->name('reserve_form.show');
+Route::get('reserve', [ReserveController::class, 'showReserveForm'])->name('reserve_form.show');
+// 予約確認画面に遷移
+Route::post('reserve/confirm', [ReserveController::class, 'reserveConfirm'])->name('reserveConfirm');
+
+// 予約登録処理、完了画面または入力画面へ遷移
+Route::post('reserve/complete', [ReserveController::class, 'reserveRegister'])->name('reserveRegister');
+
+// 予約完了画面を表示
+Route::get('reserve/complete', function() {
+      return view('user.reserve.reserve_complete');
+})->name('signup_complete.show');
