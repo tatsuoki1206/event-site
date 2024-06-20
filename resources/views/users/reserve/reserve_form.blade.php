@@ -21,8 +21,8 @@
     <div class="col-md-5">
       <label for="country" class="form-label">イベント名</label>
         <select class="form-select" name="event" required>
-          <option value="1">A</option>
-          <option value="2">B</option>
+          <option value="1">AAA</option>
+          <option value="2">BBB</option>
         </select>
     </div>
 
