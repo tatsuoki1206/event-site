@@ -38,7 +38,7 @@ class ReserveController extends Controller
         }
 
         return back()->withErrors( [
-            'danger' => '入力されたお客さまは既に登録済みです。',
+            'danger' => '入力されたお客さまは既に登録済みです。Github更新テスト',
         ] )->withInput($inputs);
     }
 
