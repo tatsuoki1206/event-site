@@ -28,6 +28,7 @@ class ReserveController extends Controller
     public function reserveConfirm(ReserveFormRequest $request) {
         
         // 入力データを取得
+        // テスト
         $inputs = $request->all();
 
         // 電話番号
