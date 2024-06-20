@@ -26,6 +26,8 @@ class ReserveController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function reserveConfirm(ReserveFormRequest $request) {
+        
+        // 入力データを取得
         $inputs = $request->all();
 
         // 電話番号
