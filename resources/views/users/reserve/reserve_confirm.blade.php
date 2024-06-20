@@ -19,13 +19,13 @@
     <x-alert type="danger" :session="session('danger')" />
 
     <div class="col-md-5">
-      <label for="country" class="form-label">イベント名</label>
+      <label for="country" class="form-label">イベント名（event name）</label>
       <input type="hidden" name="event" value="{{ $inputs['event'] }}">
       <p>{{ $inputs['event'] }}</p>
     </div>
 
     <div class="col-md-5">
-      <label for="country" class="form-label">チケット枚数</label>
+      <label for="country" class="form-label">チケット枚数（ticket num）</label>
       <input type="hidden" name="num" value="{{ $inputs['num'] }}">
       <p>{{ $inputs['num'] }}</p>
     </div>
@@ -56,20 +56,26 @@
     </div>
 
     <div class="col-12">
-      <label for="tel" class="form-label">電話番号</label>
+      <label for="tel" class="form-label">電話番号（Tel）</label>
       <input type="hidden" name="tel" value="{{ $inputs['tel'] }}">
       <p>{{ $inputs['tel'] }}</p>     
     </div>
 
     <div class="col-12">
-      <label for="email" class="form-label">メールアドレス</label>
+      <label for="email" class="form-label">メールアドレス（email）</label>
       <input type="hidden" name="email" value="{{ $inputs['email'] }}">
       <p>{{ $inputs['email'] }}</p>         
     </div>
 
+    <div class="col-12">
+      <label for="message" class="form-label">その他メッセージ（message）</label>
+      <input type="hidden" name="message" value="{{ $inputs['message'] }}">
+      <p>{{ $inputs['message'] }}</p>         
+    </div>
 
-  <a class="btn btn-lg btn-primary btn-block" href="/">戻る</a>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">確認画面へ</button>
+
+    <button class="btn btn-lg btn-primary btn-block" name="back" value="back" type="submit">修正する</a>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登録する</button>
 </form>
 </div>
 </div>

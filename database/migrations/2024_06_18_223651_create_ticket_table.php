@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('reserve', function (Blueprint $table) {
             $table->id();
             $table->string('event_name', 100);
             $table->integer('num')->unsigned();

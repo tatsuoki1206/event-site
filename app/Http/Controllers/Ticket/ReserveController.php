@@ -28,17 +28,21 @@ class ReserveController extends Controller
     public function reserveConfirm(ReserveFormRequest $request) {
         $inputs = $request->all();
 
+        // 電話番号
+        $inputs['tel'] = $inputs['tel1'].$inputs['tel2'].$inputs['tel3'];
+
         // e-mail、電話番号から既に予約済みかをチェック？
+        $reserve = $this->reserve->getUserByInput($inputs['tel'],$inputs['email']);
         
-        if (is_null($user)){
+        if (is_null($reserve)){
             // POSTされた値を取得し、確認画面を表示
-            return view('user.reserve.reserve_confirm', [
+            return view('users.reserve.reserve_confirm', [
                 'inputs' => $inputs,
             ]);
         }
 
         return back()->withErrors( [
-            'danger' => '入力されたお客さまは既に登録済みです。Github更新テスト',
+            'danger' => '入力されたお客さまは既に登録済みです。',
         ] )->withInput($inputs);
     }
 
@@ -49,16 +53,14 @@ class ReserveController extends Controller
     */
     public function reserveRegister(Request $request){
 
+        // 入力内容を取得
         $inputs = $request->all();
         
         // ボタン分岐
         if(!empty($inputs['back'])){
-            return redirect()->route('reserve.show')->withInput($inputs);
+            return redirect()->route('reserve_form.show')->withInput($inputs);
         }
-        
-        // 入力内容を取得
-        $inputs = $request->all();
-        
+                
         // DBに登録
         $return = $this->user->ticketReserve($inputs);
         
