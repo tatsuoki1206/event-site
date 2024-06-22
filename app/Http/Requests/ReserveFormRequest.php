@@ -23,7 +23,7 @@ class ReserveFormRequest extends FormRequest
     {
         return [
             // 対象イベントの選択
-            'event' => 'required',
+            'event_name' => 'required',
             // チケット枚数
             'num' => 'required',
             // 姓
@@ -41,7 +41,9 @@ class ReserveFormRequest extends FormRequest
             // 電話番号3
             'tel3' => 'required|max:5',
             // メールアドレス、必須、255文字以内
-            'email' => 'required|max:255'
+            'email' => 'required|max:255',
+            // その他メッセージ、255文字以内
+            'message' => 'max:255'
         ];
     }
 }

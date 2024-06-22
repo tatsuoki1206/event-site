@@ -20,17 +20,17 @@
 
     <div class="col-md-5">
       <label for="country" class="form-label">イベント名（event name）</label>
-        <select class="form-select" name="event" required>
-          <option value="1">AAA</option>
-          <option value="2">BBB</option>
+        <select class="form-select" name="event_name" required>
+          <option value="Broad feat. AAA" @if( old('event_name') === 'Broad feat. AAA' ) selected @endif>Broad feat. AAA</option>
+          <option value="ABC EVENT" @if( old('event_name') === 'ABC EVENT' ) selected @endif>ABC EVENT</option>
         </select>
     </div>
 
     <div class="col-md-5">
       <label for="country" class="form-label">チケット枚数（ticket num）</label>
         <select class="form-select" name="num" required>
-          <option value="1">1</option>
-          <option value="2">2</option>
+          <option value="1" @if( old('num') === '1' ) selected @endif>1</option>
+          <option value="2" @if( old('num') === '2' ) selected @endif>2</option>
         </select>
     </div>
 
@@ -57,19 +57,19 @@
 
     <div class="col-12">
       <label for="tel" class="form-label">電話番号（Tel）</label>
-      <input type="tel" class="form-control" name="tel1" placeholder="080"　value="{{ old('tel1') }}" required>
-      <input type="tel" class="form-control" name="tel2" placeholder="1234"　value="{{ old('tel2') }}" required>
-      <input type="tel" class="form-control" name="tel3" placeholder="5678"　value="{{ old('tel3') }}" required>
+      <input type="tel" class="form-control" name="tel1" placeholder="080" value="{{ old('tel1') }}" required>
+      <input type="tel" class="form-control" name="tel2" placeholder="1234" value="{{ old('tel2') }}" required>
+      <input type="tel" class="form-control" name="tel3" placeholder="5678" value="{{ old('tel3') }}" required>
     </div>
 
     <div class="col-12">
       <label for="email" class="form-label">メールアドレス（email）</label>
-      <input type="email" class="form-control" name="email" placeholder="eventsite@example.com"　value="{{ old('email') }}" required>        
+      <input type="email" class="form-control" name="email" placeholder="eventsite@example.com" value="{{ old('email') }}" required>        
     </div>
 
     <div class="col-12">
       <label for="message" class="form-label">その他メッセージ（message）</label>
-      <textarea class="form-control" name="message" value="{{ old('message') }}" ></textarea>  
+      <textarea class="form-control" name="message">{{ old('message') }}</textarea>  
     </div>
 
 

@@ -20,8 +20,8 @@
 
     <div class="col-md-5">
       <label for="country" class="form-label">イベント名（event name）</label>
-      <input type="hidden" name="event" value="{{ $inputs['event'] }}">
-      <p>{{ $inputs['event'] }}</p>
+      <input type="hidden" name="event_name" value="{{ $inputs['event_name'] }}">
+      <p>{{ $inputs['event_name'] }}</p>
     </div>
 
     <div class="col-md-5">
@@ -32,24 +32,24 @@
 
     <div class="row g-3">
       <div class="col-sm-6">
-            <label for="firstName" class="form-label">姓 (Last Name)</label>
+            <label for="lastName" class="form-label">姓 (Last Name)</label>
             <input type="hidden" name="last_name" value="{{ $inputs['last_name'] }}">
             <p>{{ $inputs['last_name'] }}</p>
       </div>
       <div class="col-sm-6">
-        <label for="lastName" class="form-label">名（First name）</label>
+        <label for="firstName" class="form-label">名（First name）</label>
         <input type="hidden" name="first_name" value="{{ $inputs['first_name'] }}">
         <p>{{ $inputs['first_name'] }}</p>
       </div>
     </div>
     <div class="row g-3">
       <div class="col-sm-6">
-          <label for="firstName" class="form-label">セイ (Last Name Katakana)</label>
+          <label for="lastName" class="form-label">セイ (Last Name Katakana)</label>
           <input type="hidden" name="last_name_kana" value="{{ $inputs['last_name_kana'] }}">
           <p>{{ $inputs['last_name_kana'] }}</p>
       </div>
       <div class="col-sm-6">
-        <label for="lastName" class="form-label">メイ（First name Katakana）</label>
+        <label for="firstName" class="form-label">メイ（First name Katakana）</label>
         <input type="hidden" name="first_name_kana" value="{{ $inputs['first_name_kana'] }}">
         <p>{{ $inputs['first_name_kana'] }}</p>
       </div>
@@ -58,6 +58,9 @@
     <div class="col-12">
       <label for="tel" class="form-label">電話番号（Tel）</label>
       <input type="hidden" name="tel" value="{{ $inputs['tel'] }}">
+      <input type="hidden" name="tel1" value="{{ $inputs['tel1'] }}">
+      <input type="hidden" name="tel2" value="{{ $inputs['tel2'] }}">
+      <input type="hidden" name="tel3" value="{{ $inputs['tel3'] }}">
       <p>{{ $inputs['tel'] }}</p>     
     </div>
 

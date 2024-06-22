@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('first_name', 50);
             $table->string('last_name_kana', 50);
             $table->string('first_name_kana', 50);
-            $table->integer('tel')->unsigned();
+            $table->unsignedBigInteger('tel');
             $table->string('email')->unique();
             $table->string('message', 300);
             $table->timestamps();

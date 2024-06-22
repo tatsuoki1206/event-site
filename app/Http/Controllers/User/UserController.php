@@ -58,15 +58,13 @@ class UserController extends Controller
     */
     public function signup(Request $request){
 
+        // 入力内容を取得
         $inputs = $request->all();
         
         // ボタン分岐
         if(!empty($inputs['back'])){
             return redirect()->route('signup.show')->withInput($inputs);
         }
-        
-        // 入力内容を取得
-        $inputs = $request->all();
         
         // DBに登録
         $return = $this->user->signupUser($inputs);

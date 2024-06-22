@@ -6,7 +6,8 @@ use App\Http\Requests\ReserveFormRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reserve;
-
+use App\Mail\ReserveComplete;
+Use Mail;
 
 class ReserveController extends Controller
 {
@@ -34,8 +35,8 @@ class ReserveController extends Controller
         // 電話番号
         $inputs['tel'] = $inputs['tel1'].$inputs['tel2'].$inputs['tel3'];
 
-        // e-mail、電話番号から既に予約済みかをチェック？
-        $reserve = $this->reserve->getUserByInput($inputs['tel'],$inputs['email']);
+        // イベント名、e-mail、電話番号から既に予約済みかをチェック？
+        $reserve = $this->reserve->getUserByInput($inputs['event_name'], $inputs['tel'], $inputs['email']);
         
         if (is_null($reserve)){
             // POSTされた値を取得し、確認画面を表示
@@ -65,7 +66,7 @@ class ReserveController extends Controller
         }
                 
         // DBに登録
-        $return = $this->user->ticketReserve($inputs);
+        $return = $this->reserve->ticketReserve($inputs);
         
         // 予約完了メールを送信
         $to = [
