@@ -9,16 +9,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ReserveComplete extends Mailable
+class TicketReserve extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public $id;
+    public $name;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($id, $name)
     {
-        //
+        $this->id = $id;
+        $this->name = $name;
     }
 
     /**
@@ -26,9 +30,11 @@ class ReserveComplete extends Mailable
      */
     public function envelope(): Envelope
     {
-        return new Envelope(
-            subject: 'Reserve Complete',
-        );
+        $envelope = new Envelope();
+
+        return $envelope->subject('予約登録完了のお知らせ')
+                    ->from('noreplay@gmail.com')
+                    ->to('testfukuda60210991@gmail.com');
     }
 
     /**
@@ -36,9 +42,11 @@ class ReserveComplete extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'view.name',
-        );
+        $url = url('/reserve/edit/'.$this->id);
+
+        $content = new Content();
+        return $content->markdown('emails.reserve')
+            ->with(['name' => $this->name, 'url' => $url]);
     }
 
     /**

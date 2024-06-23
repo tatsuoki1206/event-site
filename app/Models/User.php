@@ -133,6 +133,12 @@ class User extends Authenticatable implements MustVerifyEmail
             return false;
         }
     }
+    /**
+     * idからユーザー情報を取得する
+     */
+    public function getUserById($id){
+        return User::find($id);
+    }
 
     /**
      * ユーザー情報を更新する

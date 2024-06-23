@@ -41,12 +41,6 @@ class UserSignup extends Mailable
      */
     public function content(): Content
     {
-        /*
-        return new Content(
-            markdown: 'emails.contact',
-            text: 'emails.contact',
-        );
-        */
         $url = url('/');
 
         $content = new Content();

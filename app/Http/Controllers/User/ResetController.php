@@ -35,9 +35,9 @@ class ResetController extends Controller
      */ 
     public function resetMail(ResetMailRequest $request) {
 
-        // 入力したメールアドレスが既に存在をしているかをチェック
         $inputs = $request->all();
 
+        // 入力したメールアドレスが既に存在をしているかをチェック
         $user = $this->user->getUserByEmail($inputs['email']);
         
         if(!is_null($user)){

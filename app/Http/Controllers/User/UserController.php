@@ -31,14 +31,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */ 
     public function signupConfirm(SignupFormRequest $request) {
-        // 入力したメールアドレスが既に存在をしているかをチェック
+        
+        // 入力値を取得
         $inputs = $request->all();
-
+        // 入力したメールアドレスが既に存在をしているかをチェック
         $user = $this->user->getUserByEmail($inputs['email']);
 
         // 確認画面にパスワードを●で表示
         $inputs['str_password'] = $this->user->strPassword($inputs['password']);
 
+        // メールアドレスが存在してない場合
         if (is_null($user)){
             // POSTされた値を取得し、確認画面を表示
             return view('admin.signup.signup_confirm', [
@@ -46,6 +48,7 @@ class UserController extends Controller
             ]);
         }
 
+        // メールアドレスが存在してる場合
         return back()->withErrors( [
             'danger' => '入力されたメールアドレスは既に登録済みです。',
         ] )->withInput($inputs);
@@ -73,7 +76,7 @@ class UserController extends Controller
         $to = [
             ['email' => $inputs['email'], ]
         ];
-    
+
         Mail::to($to)->send(new UserSignup($inputs['name']));
         
         // 登録完了
@@ -85,7 +88,8 @@ class UserController extends Controller
      */
     public function showEdit($id) {
         
-        $inputs = User::find($id);
+        // ユーザー情報を取得
+        $inputs = $this->user->getUserById($id);
         
         return view( 'admin.edit.edit_form', ['inputs' => $inputs] );
     }

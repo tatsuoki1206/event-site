@@ -25,6 +25,9 @@ class Reserve extends Model
         'last_name_kana',
         'first_name_kana',
         'tel',
+        'tel1',
+        'tel2',
+        'tel3',
         'email',
         'message',
     ];
@@ -62,17 +65,50 @@ class Reserve extends Model
 
     /**
      * 予約情報を登録する
-     * @param object $user
+     * @param object $inputs
      * @param bool
      */
     public function ticketReserve($inputs){
         
         \DB::beginTransaction();
         try {
-           
-            // 予約情報を登録
-            Reserve::create($inputs);
-            
+            // 予約情報を登録、予約変更・取消URL用のidを取得
+            $reserve = Reserve::create($inputs);
+            $id = $reserve->id;
+
+            \DB::commit();
+            return $id;
+        } catch(\Throwable $e) {
+            \DB::rollback();
+            abort(500);
+            return false;
+        }
+        
+    }
+
+    /**
+     * 既存の予約データを取得
+     * @param object $id
+     * @param $inputs
+     */
+    public function getReserveById($id){
+        return Reserve::find($id);
+    }
+
+    /**
+     * 予約情報の変更を反映する
+     * @param object $inputs
+     * @param bool
+     */
+    public function editTicketReserve($inputs){
+        
+
+        \DB::beginTransaction();
+        try {
+            // 予約情報を更新
+            $reserve = Reserve::find($inputs['id']);
+            $reserve->update($inputs);
+
             \DB::commit();
             return true;
         } catch(\Throwable $e) {
@@ -80,5 +116,6 @@ class Reserve extends Model
             abort(500);
             return false;
         }
+        
     }
 }

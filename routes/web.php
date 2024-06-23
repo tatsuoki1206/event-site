@@ -135,7 +135,9 @@ Route::group(['middleware' => ['auth']], function () {
 /**
  * チケット予約
  */
+// 予約画面に遷移
 Route::get('reserve', [ReserveController::class, 'showReserveForm'])->name('reserve_form.show');
+
 // 予約確認画面に遷移
 Route::post('reserve/confirm', [ReserveController::class, 'reserveConfirm'])->name('reserveConfirm');
 
@@ -144,5 +146,22 @@ Route::post('reserve/complete', [ReserveController::class, 'reserveRegister'])->
 
 // 予約完了画面を表示
 Route::get('reserve/complete', function() {
-      return view('user.reserve.reserve_complete');
-})->name('signup_complete.show');
+      return view('users.reserve.reserve_complete');
+})->name('reserve_complete.show');
+
+/**
+ * チケット予約内容編集
+ */
+// 予約編集画面に遷移
+Route::get('reserve/edit/{id}', [ReserveController::class, 'showEditReserveForm'])->name('editReserve_form.show');
+
+// 予約編集確認画面に遷移
+Route::post('reserve/edit/confirm', [ReserveController::class, 'editReserveConfirm'])->name('editReserveConfirm');
+
+// 予約編集登録処理、完了画面または入力画面へ遷移
+Route::post('reserve/edit/complete', [ReserveController::class, 'editReserveRegister'])->name('editReserveRegister');
+
+// 予約編集完了画面を表示
+Route::get('reserve/edit/complete', function() {
+      return view('users.reserve.edit.editReserve_complete');
+})->name('editReserve_complete.show');

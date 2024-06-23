@@ -6,7 +6,7 @@ use App\Http\Requests\ReserveFormRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reserve;
-use App\Mail\ReserveComplete;
+use App\Mail\TicketReserve;
 Use Mail;
 
 class ReserveController extends Controller
@@ -29,9 +29,8 @@ class ReserveController extends Controller
     public function reserveConfirm(ReserveFormRequest $request) {
         
         // 入力データを取得
-        // branch名称変更テスト
         $inputs = $request->all();
-
+        
         // 電話番号
         $inputs['tel'] = $inputs['tel1'].$inputs['tel2'].$inputs['tel3'];
 
@@ -65,17 +64,83 @@ class ReserveController extends Controller
             return redirect()->route('reserve_form.show')->withInput($inputs);
         }
                 
-        // DBに登録
-        $return = $this->reserve->ticketReserve($inputs);
+        // DBに登録、予約変更・取消URL用のidを取得
+        $id = $this->reserve->ticketReserve($inputs);
         
-        // 予約完了メールを送信
+        /**
+         * 予約完了メールを送信
+         */
         $to = [
             ['email' => $inputs['email'], ]
         ];
-    
-        Mail::to($to)->send(new ticketReserve($inputs['name']));
+        // メール用の宛名（姓 名）
+        $name = $inputs['last_name']." ".$inputs['first_name'];
+        
+        Mail::to($to)->send(new TicketReserve($id, $name));
         
         // 登録完了
-        return redirect()->route('signup_complete.show')->with( 'success', 'ユーザーの登録が完了しました！' );
+        return redirect()->route('reserve_complete.show')->with( 'success', '予約が完了しました！' );
+    }
+
+    /**
+     * 予約編集フォーム画面を表示
+     */ 
+    public function showEditReserveForm($id) {
+
+        $inputs = $this->reserve->getReserveById($id);
+        
+        return view( 'users.reserve.edit.editReserve_form', ['inputs' => $inputs] );
+    }
+
+    /**
+     * 予約編集確認画面に遷移、表示
+     * @param App\Http\Requests\ReserveFormRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function editReserveConfirm(ReserveFormRequest $request) {
+        
+        // 入力データを取得
+        $inputs = $request->all();
+        
+        // 電話番号
+        $inputs['tel'] = $inputs['tel1'].$inputs['tel2'].$inputs['tel3'];
+
+        //確認画面を表示
+        return view('users.reserve.edit.editReserve_confirm', [
+                'inputs' => $inputs,
+            ]);
+    }
+
+    /**
+     * 予約編集登録処理をする
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+    */
+    public function editReserveRegister(Request $request){
+
+        // 入力内容を取得
+        $inputs = $request->all();
+        
+        // ボタン分岐
+        if(!empty($inputs['back'])){
+            return redirect()->route('editReserve_form.show')->withInput($inputs);
+        }
+                
+        // 予約情報のテーブルを編集
+        $return = $this->reserve->editTicketReserve($inputs);
+
+        /**
+         * 予約完了メールを送信
+         */
+        $to = [
+            ['email' => $inputs['email'], ]
+        ];
+        // メール用の宛名（姓 名）
+        $name = $inputs['last_name']." ".$inputs['first_name'];
+        
+        Mail::to($to)->send(new EditTicketReserve($id, $name));
+        
+        // 登録完了
+        return redirect()->route('editReserve_complete.show')->with( 'success', '予約情報の変更が完了しました！' );
     }
 }
