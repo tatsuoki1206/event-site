@@ -151,6 +151,13 @@ return [
         'password' => 'パスワード',
         'password_confirm' => 'パスワード（確認用）',
         'passwords' => 'パスワード',
+        'event_name' => 'イベント名',
+        'num' => 'チケット枚数',
+        'last_name' => '姓',
+        'first_name' => '名',
+        'last_name_kana' => 'セイ',
+        'first_name_kana' => 'メイ',
+        'tel' => '電話番号',
     ],
 
 ];

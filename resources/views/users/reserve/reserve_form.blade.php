@@ -21,6 +21,7 @@
     <div class="col-md-5">
       <label for="country" class="form-label">イベント名（event name）</label>
         <select class="form-select" name="event_name" required>
+        <option value="" @if( old('event_name') === '' ) selected @endif>--ご選択ください--</option>
           <option value="Broad feat. AAA" @if( old('event_name') === 'Broad feat. AAA' ) selected @endif>Broad feat. AAA</option>
           <option value="ABC EVENT" @if( old('event_name') === 'ABC EVENT' ) selected @endif>ABC EVENT</option>
         </select>
@@ -29,6 +30,7 @@
     <div class="col-md-5">
       <label for="country" class="form-label">チケット枚数（ticket num）</label>
         <select class="form-select" name="num" required>
+        <option value="" @if( old('num') === '' ) selected @endif>--ご選択ください--</option>
           <option value="1" @if( old('num') === '1' ) selected @endif>1</option>
           <option value="2" @if( old('num') === '2' ) selected @endif>2</option>
         </select>
