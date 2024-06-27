@@ -21,6 +21,15 @@ class ReserveFormRequest extends FormRequest
      */
     public function rules(): array
     {
+        $tel1 = $this->request->get('tel1');
+        $tel2 = $this->request->get('tel2');
+        $tel3 = $this->request->get('tel3');
+
+        $tel = $tel1 . $tel2 . $tel3;
+        $this->merge([
+            'tel' => $tel,
+        ]);
+
         return [
             // 対象イベントの選択
             'event_name' => 'required',
@@ -34,12 +43,16 @@ class ReserveFormRequest extends FormRequest
             'last_name_kana' => 'required| regex:/\A[ァ-ヴー]+\z/u | max:20',
             // メイ
             'first_name_kana' => 'required| regex:/\A[ァ-ヴー]+\z/u | max:20',
+            /*
             // 電話番号1
             'tel1' => 'required| regex:/^0/ | max:5',
             // 電話番号2
             'tel2' => 'required| regex:/^[0-9]+$/ | max:5',
             // 電話番号3
             'tel3' => 'required| regex:/^[0-9]+$/ | max:5',
+            */
+            // 電話番号
+            'tel' => ['required', 'regex: /^0[0-9]{9,11}$/'],
             // メールアドレス、必須、255文字以内
             'email' => 'required| email | max:255',
             // その他メッセージ、255文字以内

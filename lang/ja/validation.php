@@ -158,6 +158,9 @@ return [
         'last_name_kana' => 'セイ',
         'first_name_kana' => 'メイ',
         'tel' => '電話番号',
+        'tel1' => '電話番号',
+        'tel2' => '電話番号',
+        'tel3' => '電話番号',
     ],
 
 ];

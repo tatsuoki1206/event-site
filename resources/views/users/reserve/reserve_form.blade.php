@@ -10,7 +10,7 @@
 <div class="col-md-7 col-lg-8">
 <form class="" method="POST" action="{{ route('reserveConfirm') }}">
   @csrf
-  @foreach ($errors->all() as $error)
+  @foreach (array_unique($errors->all()) as $error)
     <ul class="alert alert-danger">
       <li>{{$error}}</li>
     </ul>
@@ -39,39 +39,39 @@
     <div class="row g-3">
       <div class="col-sm-6">
             <label for="firstName" class="form-label">姓 (Last Name)</label>
-            <input type="text" class="form-control" name="last_name" placeholder="山田" value="{{ old('last_name') }}" required>
+            <input type="text" class="form-control" name="last_name" placeholder="山田" maxlength="25" value="{{ old('last_name') }}" required>
       </div>
       <div class="col-sm-6">
         <label for="lastName" class="form-label">名（First name）</label>
-        <input type="text" class="form-control" name="first_name" placeholder="太郎" value="{{ old('first_name') }}" required>
+        <input type="text" class="form-control" name="first_name" placeholder="太郎" maxlength="25" value="{{ old('first_name') }}" required>
       </div>
     </div>
     <div class="row g-3">
       <div class="col-sm-6">
             <label for="firstName" class="form-label">セイ (Last Name Katakana)</label>
-            <input type="text" class="form-control" name="last_name_kana" placeholder="ヤマダ" value="{{ old('last_name_kana') }}" required>
+            <input type="text" class="form-control" name="last_name_kana" placeholder="ヤマダ" maxlength="25" value="{{ old('last_name_kana') }}" required>
       </div>
       <div class="col-sm-6">
         <label for="lastName" class="form-label">メイ（First name Katakana）</label>
-        <input type="text" class="form-control" name="first_name_kana" placeholder="タロウ" value="{{ old('first_name_kana') }}" required>
+        <input type="text" class="form-control" name="first_name_kana" placeholder="タロウ" maxlength="25" value="{{ old('first_name_kana') }}" required>
       </div>
     </div>
 
     <div class="col-12">
       <label for="tel" class="form-label">電話番号（Tel）</label>
-      <input type="tel" class="form-control" name="tel1" placeholder="080" value="{{ old('tel1') }}" required>
-      <input type="tel" class="form-control" name="tel2" placeholder="1234" value="{{ old('tel2') }}" required>
-      <input type="tel" class="form-control" name="tel3" placeholder="5678" value="{{ old('tel3') }}" required>
+      <input type="tel" class="form-control" name="tel1" placeholder="080" maxlength="5" value="{{ old('tel1') }}" required>
+      <input type="tel" class="form-control" name="tel2" placeholder="1234" maxlength="5" value="{{ old('tel2') }}" required>
+      <input type="tel" class="form-control" name="tel3" placeholder="5678" maxlength="5" value="{{ old('tel3') }}" required>
     </div>
 
     <div class="col-12">
       <label for="email" class="form-label">メールアドレス（email）</label>
-      <input type="email" class="form-control" name="email" placeholder="eventsite@example.com" value="{{ old('email') }}" required>        
+      <input type="email" class="form-control" name="email" placeholder="eventsite@example.com" maxlength="255" value="{{ old('email') }}" required>        
     </div>
 
     <div class="col-12">
       <label for="message" class="form-label">その他メッセージ（message）</label>
-      <textarea class="form-control" name="message">{{ old('message') }}</textarea>  
+      <textarea class="form-control" name="message" maxlength="255">{{ old('message') }}</textarea>  
     </div>
 
 

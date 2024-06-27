@@ -133,6 +133,14 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 /**
+ * 予約管理画面
+ */
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('reserveList', [ReserveController::class, 'showReserveList'])->name('reserve_list.show');
+
+});
+
+/**
  * チケット予約
  */
 // 予約画面に遷移

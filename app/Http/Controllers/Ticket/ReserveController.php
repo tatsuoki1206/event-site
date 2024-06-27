@@ -15,6 +15,13 @@ class ReserveController extends Controller
         $this->reserve = $reserve;
     }
     /**
+     * 予約管理画面を表示
+     */ 
+    public function showReserveList() {
+        return view( 'admin.reserve.reserve_list' );
+    }
+
+    /**
      * 予約フォーム画面を表示
      */ 
     public function showReserveForm() {

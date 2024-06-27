@@ -73,7 +73,7 @@
     <div class="col-12">
       <label for="message" class="form-label">その他メッセージ（message）</label>
       <input type="hidden" name="message" value="{{ $inputs['message'] }}">
-      <p>{{ $inputs['message'] }}</p>         
+      <p>{!! nl2br(htmlspecialchars($inputs['message'])) !!}</p>         
     </div>
 
 
