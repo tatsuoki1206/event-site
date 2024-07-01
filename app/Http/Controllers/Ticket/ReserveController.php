@@ -18,7 +18,9 @@ class ReserveController extends Controller
      * 予約管理画面を表示
      */ 
     public function showReserveList() {
-        return view( 'admin.reserve.reserve_list' );
+        $reserves = Reserve::all();
+        
+        return view( 'admin.reserve.reserve_list',['reserves' => $reserves]);
     }
 
     /**
@@ -149,5 +151,21 @@ class ReserveController extends Controller
         
         // 登録完了
         return redirect()->route('editReserve_complete.show')->with( 'success', '予約情報の変更が完了しました！' );
+    }
+
+    /**
+     * 予約を削除する
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteReserve(Request $request){
+
+        $data= $request->all();
+        
+        // DBから削除
+        $return = $this->reserve->dbDeleteReserve($data['id']);
+
+        \Session::flash('success','予約の削除が完了しました。');
+        return redirect(route('reserve_list.show'));
     }
 }

@@ -118,4 +118,25 @@ class Reserve extends Model
         }
         
     }
+
+    /**
+     * 予約情報を削除する
+     * @param object $user
+     * @param bool
+     */
+    public function dbDeleteReserve($id){
+        
+        if(empty($id)){
+            \Session::flash('err_msg','データがありません。');
+            return redirect(route('login'));
+        }
+
+        try{
+            // 予約情報を削除する
+            Reserve::destroy($id);
+        } catch(\Throwable $e){
+            // エラーで500ページに遷移
+            abort(500);
+        }
+    }
 }

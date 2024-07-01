@@ -137,7 +137,10 @@ Route::group(['middleware' => ['auth']], function () {
  */
 Route::group(['middleware' => ['auth']], function () {
     Route::get('reserveList', [ReserveController::class, 'showReserveList'])->name('reserve_list.show');
+    // 予約情報編集
 
+    // 予約情報
+    Route::post('reserveList/delete', [ReserveController::class, 'deleteReserve'])->name('deleteReserve');
 });
 
 /**
